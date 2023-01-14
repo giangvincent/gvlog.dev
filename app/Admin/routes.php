@@ -13,4 +13,9 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('home');
 
+    $router->resource('categories', CategoryController::class);
+    $router->resource('tags', TagController::class);
+    $router->resource('posts', PostController::class);
+    $router->resource('static-contents', StaticContentController::class);
+    $router->resource('contact-messages', ContactMsgController::class);
 });

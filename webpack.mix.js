@@ -10,8 +10,10 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-mix.postCss('resources/css/app.css', 'public/build/css', [
-    require('tailwindcss'),
-]);
-
-mix.js('resources/js/app.js', 'public/build/js').extract(['vue']);
+mix.js('resources/js/app.js', 'public/build/js')
+    .vue()
+    .postCss('resources/css/app.css', 'public/build/css', [
+        require('postcss-import'),
+        require('tailwindcss'),
+        require('autoprefixer'),
+    ]);

@@ -26,12 +26,9 @@
 <body class="bg-white font-family-karla">
 
   <div id="app">
-    <div class="relative flex items-top justify-center min-h-screen bg-gray-100 sm:items-center py-4 sm:pt-0">
-        <index/>
-    </div>
+    <index/>
 </div>
 
-<script src="{{ mix('build/js/manifest.js') }}"></script>
 <script src="{{ mix('build/js/app.js') }}"></script>
 
     <footer class="w-full border-t bg-white pb-12">

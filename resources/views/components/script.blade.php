@@ -1,1 +1,2 @@
-<script src="assets/js/main.js"></script>
+<script src="/js/manifest.js"></script>
+<script src="/js/app.js"></script>

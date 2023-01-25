@@ -11,14 +11,8 @@
       href="assets/images/favicon.png"
       type="image/x-icon"
     />
-    <link rel="stylesheet" href="assets/css/animate.css" />
-    <link rel="stylesheet" href="assets/css/tailwind.css" />
+    <link href="/css/app.css" rel="stylesheet">
     @yield('custom-css')
-    <!-- ==== WOW JS ==== -->
-    <script src="assets/js/wow.min.js"></script>
-    <script>
-      new WOW().init();
-    </script>
   </head>
   <body>
     <!-- ====== Navbar Section Start -->

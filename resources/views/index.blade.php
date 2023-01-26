@@ -8,6 +8,6 @@
 
 @section('main')
     <div id="app">
-        <index />
+        <router-view />
     </div>
 @endsection

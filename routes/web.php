@@ -18,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/blog', [PostController::class, 'detail']);
+
+
+Route::view('/{any}', 'index')
+    ->where('any', '.*');

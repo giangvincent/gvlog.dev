@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import TopNav from "./TopNav.vue";
-import Header from "./Header.vue";
-import TopicNav from "./TopicNav.vue";
-import ListPosts from "./ListPosts.vue";
-import Sidebar from "./Sidebar.vue";
-import Footer from "./Footer.vue";
+import TopNav from "./components/TopNav.vue";
+import Header from "./components/Header.vue";
+import TopicNav from "./components/TopicNav.vue";
+import ListPosts from "./components/ListPosts.vue";
+import Sidebar from "./components/Sidebar.vue";
+import Footer from "./components/Footer.vue";
 
 export default {
   components: { ListPosts, Sidebar, TopicNav, TopNav, Header, Footer },

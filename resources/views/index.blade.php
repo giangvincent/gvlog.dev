@@ -2,7 +2,7 @@
 
 @section('head')
     <title>Tailwind Blog Template</title>
-    <meta name="author" content="David Grzyb">
+    <meta name="author" content="Giang Vincent">
     <meta name="description" content="">
 @endsection
 

@@ -2,7 +2,9 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -71,12 +73,17 @@ class PostController extends AdminController
     {
         $form = new Form(new Post());
 
+        $form->multipleSelect('categories', 'Categories')->options(Category::all()->pluck('name', 'id'));
         $form->text('title', __('Title'));
-        $form->text('slug', __('Slug'));
         $form->textarea('description', __('Description'));
-        $form->textarea('content', __('Content'));
+        $form->simditor('content');
+        $form->multipleSelect('tags', 'Tags')->options(Tag::all()->pluck('name', 'id'));
         $form->text('status', __('Status'));
         $form->text('feature_image', __('Feature image'));
+
+        $form->saving(function ($form) {
+            $form->slug = $form->title;
+        });
 
         return $form;
     }

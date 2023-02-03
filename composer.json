@@ -9,6 +9,7 @@
         "encore/laravel-admin": "^1.8",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "intervention/image": "^2.7",
         "jxlwqq/simditor": "^1.0",
         "laravel-admin-ext/simplemde": "^1.0",
         "laravel/framework": "^8.75",

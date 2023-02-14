@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostController extends Controller
 {
-    public function detail()
+    public function getListPosts()
     {
-        return view('blog-details');
+        return response()->json(Post::where('status', 'publish')
+            ->orderBy('id', 'desc')
+            ->paginate(10));
     }
 }

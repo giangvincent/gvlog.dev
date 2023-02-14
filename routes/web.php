@@ -19,6 +19,6 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/blog', [PostController::class, 'detail']);
 
-
-Route::view('/{any}', 'index')
-    ->where('any', '.*');
+Route::prefix('/api')->name('api.')->group(function () {
+    Route::get('/posts', [PostController::class, 'getListPosts'])->name('posts');
+});

@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Support\Str;
 
 class TagController extends AdminController
 {
@@ -29,7 +30,7 @@ class TagController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
         $grid->column('slug', __('Slug'));
-        $grid->column('status', __('Status'));
+        $grid->column('status', __('Status'))->switch(FormEnum::STATUS_STATES);
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
@@ -66,8 +67,12 @@ class TagController extends AdminController
         $form = new Form(new Tag());
 
         $form->text('name', __('Name'));
-        $form->text('slug', __('Slug'));
-        $form->text('status', __('Status'));
+        $form->hidden('slug');
+        $form->switch('status', __('Status'))->states(FormEnum::STATUS_STATES);
+
+        $form->saving(function (Form $form) {
+            $form->slug = Str::slug($form->name);
+        });
 
         return $form;
     }

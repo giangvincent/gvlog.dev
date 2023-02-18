@@ -7,6 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Support\Str;
 
 class CategoryController extends AdminController
 {
@@ -29,8 +30,8 @@ class CategoryController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
         $grid->column('slug', __('Slug'));
-        $grid->column('description', __('Description'));
-        $grid->column('status', __('Status'));
+        $grid->column('description', __('Description'))->editable('textarea');
+        $grid->column('status')->switch(FormEnum::STATUS_STATES);
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
@@ -68,9 +69,13 @@ class CategoryController extends AdminController
         $form = new Form(new Category());
 
         $form->text('name', __('Name'));
-        $form->text('slug', __('Slug'));
+        $form->hidden('slug');
         $form->textarea('description', __('Description'));
-        $form->text('status', __('Status'));
+        $form->switch('status', __('Status'))->states(FormEnum::STATUS_STATES);
+
+        $form->saving(function (Form $form) {
+            $form->slug = Str::slug($form->name);
+        });
 
         return $form;
     }

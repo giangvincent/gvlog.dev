@@ -10,7 +10,7 @@ const routes = [
         component: Index
     },
     {
-        path: '/post',
+        path: '/post/:postId',
         name: 'post_detail',
         component: Detail
     }

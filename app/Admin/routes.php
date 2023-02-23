@@ -18,4 +18,5 @@ Route::group([
     $router->resource('posts', PostController::class);
     $router->resource('static-contents', StaticContentController::class);
     $router->resource('contact-messages', ContactMsgController::class);
+    $router->resource('menus', MenuController::class);
 });

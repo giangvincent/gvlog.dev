@@ -66,8 +66,9 @@ class MenuController extends AdminController
         $form = new Form(new Menu());
 
         $form->text('display_name', __('Display name'));
-        $form->url('url', __('Url'));
+        $form->text('url', __('Url'));
         $form->text('child', __('Child'));
+        $form->number('order');
 
         return $form;
     }

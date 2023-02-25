@@ -54,20 +54,22 @@
 <script>
 export default {
   name: "ListPosts",
+  props: {
+    posts: Object,
+    category: String
+  },
   data() {
     return {
-      posts: {},
     };
   },
   methods: {
     async getPosts(page = 1) {
-      const response = await fetch(`/api/posts?page=${page}`);
+      const response = await fetch(`/api/posts?page=${page}&category=${this.category}`);
       this.posts = await response.json();
     },
   },
   mounted() {
-    this.posts = window.posts;
-    console.log(window.posts);
-  },
+    console.log(this.category)
+  }
 };
 </script>

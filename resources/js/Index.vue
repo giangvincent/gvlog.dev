@@ -8,9 +8,9 @@
 
     <!-- Topic Nav -->
     <topic-nav></topic-nav>
-    <div class="container mx-auto flex flex-wrap py-6">
+    <div class="container flex flex-wrap py-6 mx-auto">
       <!-- Posts Section -->
-      <list-posts></list-posts>
+      <list-posts :posts="posts" category=""></list-posts>
       <!-- Sidebar Section -->
       <sidebar></sidebar>
     </div>
@@ -30,5 +30,13 @@ import Footer from "./components/Footer.vue";
 export default {
   components: { ListPosts, Sidebar, TopicNav, TopNav, Header, Footer },
   name: "Index",
+  data() {
+    return {
+      posts: {}
+    }
+  },
+  mounted() {
+    this.posts = window.posts
+  }
 };
 </script>

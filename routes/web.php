@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::get('/category/{category}', [HomeController::class, 'index']);
+
 Route::get('/blog', [PostController::class, 'detail']);
 
 Route::prefix('/api')->name('api.')->group(function () {

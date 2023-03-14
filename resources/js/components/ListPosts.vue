@@ -55,11 +55,11 @@
 export default {
   name: "ListPosts",
   props: {
-    posts: Object,
     category: String
   },
   data() {
     return {
+        posts: {}
     };
   },
   methods: {
@@ -69,7 +69,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.category)
+      this.getPosts();
   }
 };
 </script>

@@ -10,7 +10,7 @@
       <topic-nav></topic-nav>
       <div class="container flex flex-wrap py-6 mx-auto">
         <!-- Posts Section -->
-        <list-posts :posts="posts" :category="$route.params.category"></list-posts>
+        <list-posts :category="$route.params.category"></list-posts>
         <!-- Sidebar Section -->
         <sidebar></sidebar>
       </div>
@@ -30,13 +30,5 @@
   export default {
     components: { ListPosts, Sidebar, TopicNav, TopNav, Header, Footer },
     name: "Category",
-    data() {
-      return {
-        posts: {}
-      }
-    },
-    mounted() {
-      this.posts = window.posts
-    }
   };
   </script>

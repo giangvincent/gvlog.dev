@@ -1,16 +1,16 @@
 <template>
     <div>
         <!-- Top Bar Nav -->
-        <top-nav></top-nav>
+        <TopNav />
 
         <!-- Text Header -->
         <Header/>
 
         <!-- Topic Nav -->
-        <topic-nav></topic-nav>
+        <TopicNav />
         <div class="container flex flex-wrap py-6 mx-auto">
             <!-- Posts Section -->
-            <list-posts :posts="posts" category=""></list-posts>
+            <list-posts category=""></list-posts>
             <!-- Sidebar Section -->
             <sidebar></sidebar>
         </div>
@@ -30,19 +30,5 @@ import Footer from "./components/Footer.vue";
 export default {
     components: {ListPosts, Sidebar, TopicNav, TopNav, Header, Footer},
     name: "Index",
-    data() {
-        return {
-            posts: {}
-        }
-    },
-    methods: {
-        async getPosts(page = 1) {
-            const response = await fetch(`/api/posts?page=${page}&category=${this.category}`);
-            this.posts = await response.json();
-        },
-    },
-    mounted() {
-        this.getPosts();
-    }
 };
 </script>

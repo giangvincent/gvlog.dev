@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Post;
+use App\Models\Menu;
+use App\Models\StaticContent;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        $menuTab = Menu::orderBy('order', 'desc')->get();
+        $staticContent = StaticContent::where('status', 'index')->get();
         return view('index', [
-            'posts' => json_encode(Post::where('status', 'publish')
-                ->with('categories:name,slug,status', 'tags:name,slug,status')
-                ->orderBy('id', 'desc')
-                ->paginate(10))
+            'menuTab' => json_encode($menuTab),
+            'staticContent' => json_encode($staticContent)
         ]);
     }
 }

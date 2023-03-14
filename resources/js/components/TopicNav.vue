@@ -3,9 +3,9 @@
     <div class="max-w-6xl px-4 mx-auto">
       <div class="flex flex-col items-center justify-center">
         <div class="hidden space-x-1 md:flex">
-          <a href="" class="px-2 py-4 font-semibold text-gray-500 border-b-4 border-purple-500">
+          <router-link to="/" class="px-2 py-4 font-semibold text-gray-500 border-b-4 border-purple-500">
             Home
-          </a>
+          </router-link>
           <a href="" class="px-2 py-4 font-semibold text-gray-500 transition duration-300 hover:text-purple-500">
             Services
           </a>

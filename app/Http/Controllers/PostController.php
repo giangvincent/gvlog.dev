@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Post;
 
 class PostController extends Controller
 {
-    public function getListPosts(Request $request)
+    public function getListPosts(Request $request) :JsonResponse
     {
         $category = $request->get('category');
         if ($category) {

@@ -1,22 +1,22 @@
 <template>
-  <div>
-    <!-- Top Bar Nav -->
-    <top-nav></top-nav>
+    <div>
+        <!-- Top Bar Nav -->
+        <top-nav></top-nav>
 
-    <!-- Text Header -->
-    <Header />
+        <!-- Text Header -->
+        <Header/>
 
-    <!-- Topic Nav -->
-    <topic-nav></topic-nav>
-    <div class="container flex flex-wrap py-6 mx-auto">
-      <!-- Posts Section -->
-      <list-posts :posts="posts" category=""></list-posts>
-      <!-- Sidebar Section -->
-      <sidebar></sidebar>
+        <!-- Topic Nav -->
+        <topic-nav></topic-nav>
+        <div class="container flex flex-wrap py-6 mx-auto">
+            <!-- Posts Section -->
+            <list-posts :posts="posts" category=""></list-posts>
+            <!-- Sidebar Section -->
+            <sidebar></sidebar>
+        </div>
+
+        <Footer/>
     </div>
-
-    <Footer />
-  </div>
 </template>
 
 <script>
@@ -28,15 +28,21 @@ import Sidebar from "./components/Sidebar.vue";
 import Footer from "./components/Footer.vue";
 
 export default {
-  components: { ListPosts, Sidebar, TopicNav, TopNav, Header, Footer },
-  name: "Index",
-  data() {
-    return {
-      posts: {}
+    components: {ListPosts, Sidebar, TopicNav, TopNav, Header, Footer},
+    name: "Index",
+    data() {
+        return {
+            posts: {}
+        }
+    },
+    methods: {
+        async getPosts(page = 1) {
+            const response = await fetch(`/api/posts?page=${page}&category=${this.category}`);
+            this.posts = await response.json();
+        },
+    },
+    mounted() {
+        this.getPosts();
     }
-  },
-  mounted() {
-    this.posts = window.posts
-  }
 };
 </script>

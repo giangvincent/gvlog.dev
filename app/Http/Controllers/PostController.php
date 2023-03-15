@@ -8,23 +8,24 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-    public function getListPosts(Request $request): JsonResponse
+    public function getListPosts(): JsonResponse
     {
-        $category = $request->get('category');
-        if ($category) {
-            return response()->json(
-                Post::where('status', 'publish')
-                    ->whereHas('categories', function ($query) use ($category) {
-                        $query->where('slug', $category);
-                    })
-                    ->with('categories:name,slug,status', 'tags:name,slug,status')
-                    ->orderBy('id', 'desc')
-                    ->paginate(10)
-            );
-        }
         return response()->json(Post::where('status', 'publish')
             ->with('categories:name,slug,status', 'tags:name,slug,status')
             ->orderBy('id', 'desc')
             ->paginate(10));
+    }
+
+    public function getListPostsByCat($category): JsonResponse
+    {
+        return response()->json(
+            Post::where('status', 'publish')
+                ->whereHas('categories', function ($query) use ($category) {
+                    $query->where('slug', $category);
+                })
+                ->with('categories:name,slug,status', 'tags:name,slug,status')
+                ->orderBy('id', 'desc')
+                ->paginate(10)
+        );
     }
 }

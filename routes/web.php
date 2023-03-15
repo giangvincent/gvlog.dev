@@ -23,4 +23,5 @@ Route::get('/blog', [PostController::class, 'detail']);
 
 Route::prefix('/api')->name('api.')->group(function () {
     Route::get('/posts', [PostController::class, 'getListPosts'])->name('posts');
+    Route::get('/posts-by-cat/{category}', [PostController::class, 'getListPostsByCat'])->name('postsByCat');
 });

@@ -3,14 +3,15 @@
 namespace App\Filament\Resources\Posts\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Str;
 
 class PostForm
@@ -49,6 +50,17 @@ class PostForm
                             ->seconds(false),
                     ])
                     ->columns(2),
+                Section::make('Media')
+                    ->schema([
+                        FileUpload::make('cover_image_path')
+                            ->label('Cover Image')
+                            ->disk('r2')
+                            ->directory('posts/covers')
+                            ->visibility('public')
+                            ->image()
+                            ->imageEditor()
+                            ->maxSize(5120),
+                    ]),
                 Section::make('Content')
                     ->columnSpanFull()
                     ->schema([
@@ -57,6 +69,9 @@ class PostForm
                             ->label('Excerpt'),
                         RichEditor::make('body')
                             ->label('Body')
+                            ->fileAttachmentsDisk('r2')
+                            ->fileAttachmentsDirectory('posts/attachments')
+                            ->fileAttachmentsVisibility('public')
                             ->columnSpanFull(),
                     ]),
             ]);

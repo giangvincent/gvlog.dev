@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+'default' => env('FILESYSTEM_DISK', 'local'),
+'cloud' => env('FILESYSTEM_CLOUD', env('FILESYSTEM_DISK', 'local')),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,6 +57,19 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+            'report' => false,
+        ],
+
+        'r2' => [
+            'driver' => 's3',
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => env('R2_DEFAULT_REGION', 'auto'),
+            'bucket' => env('R2_BUCKET'),
+            'url' => rtrim(env('R2_PUBLIC_DOMAIN', ''), '/'),
+            'endpoint' => env('R2_ENDPOINT') ?: (env('R2_ACCOUNT_ID') ? sprintf('https://%s.r2.cloudflarestorage.com', env('R2_ACCOUNT_ID')) : null),
+            'use_path_style_endpoint' => true,
             'throw' => false,
             'report' => false,
         ],

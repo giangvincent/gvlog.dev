@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\ContentChanged;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -50,5 +51,26 @@ class PortfolioProject extends Model
                 ContentChanged::dispatch($project, $event);
             });
         }
+    }
+
+    public function getThumbnailAssetUrlAttribute(): ?string
+    {
+        return $this->assetUrl($this->getAttribute('thumbnail_url'));
+    }
+
+    public function getHeroImageAssetUrlAttribute(): ?string
+    {
+        return $this->assetUrl($this->getAttribute('hero_image_url'));
+    }
+
+    protected function assetUrl(?string $path): ?string
+    {
+        if (blank($path)) {
+            return null;
+        }
+
+        $disk = config('filesystems.cloud', config('filesystems.default'));
+
+        return Storage::disk($disk)->url($path);
     }
 }

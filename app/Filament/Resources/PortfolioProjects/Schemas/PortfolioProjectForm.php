@@ -3,14 +3,15 @@
 namespace App\Filament\Resources\PortfolioProjects\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -45,11 +46,23 @@ class PortfolioProjectForm
                         TextInput::make('source_url')
                             ->label('Source URL')
                             ->url(),
-                        TextInput::make('thumbnail_url')
-                            ->label('Thumbnail URL')
+                        FileUpload::make('thumbnail_url')
+                            ->label('Thumbnail')
+                            ->disk('r2')
+                            ->directory('portfolio/thumbnails')
+                            ->visibility('public')
+                            ->image()
+                            ->imageEditor()
+                            ->maxSize(5120)
                             ->columnSpanFull(),
-                        TextInput::make('hero_image_url')
-                            ->label('Hero Image URL')
+                        FileUpload::make('hero_image_url')
+                            ->label('Hero Image')
+                            ->disk('r2')
+                            ->directory('portfolio/heroes')
+                            ->visibility('public')
+                            ->image()
+                            ->imageEditor()
+                            ->maxSize(8192)
                             ->columnSpanFull(),
                     ]),
                 Section::make('Content')
@@ -58,6 +71,9 @@ class PortfolioProjectForm
                         Textarea::make('summary')
                             ->rows(3),
                         RichEditor::make('body')
+                            ->fileAttachmentsDisk('r2')
+                            ->fileAttachmentsDirectory('portfolio/attachments')
+                            ->fileAttachmentsVisibility('public')
                             ->columnSpanFull(),
                     ]),
                 Section::make('Meta')

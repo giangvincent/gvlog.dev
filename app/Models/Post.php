@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\ContentChanged;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
@@ -20,6 +21,7 @@ class Post extends Model
         'body',
         'status',
         'published_at',
+        'cover_image_path',
     ];
 
     protected $casts = [
@@ -40,5 +42,21 @@ class Post extends Model
                 ContentChanged::dispatch($post, $event);
             });
         }
+    }
+
+    public function getCoverImageUrlAttribute(): ?string
+    {
+        return $this->resolveAssetUrl($this->cover_image_path);
+    }
+
+    protected function resolveAssetUrl(?string $path): ?string
+    {
+        if (blank($path)) {
+            return null;
+        }
+
+        $disk = config('filesystems.cloud', config('filesystems.default'));
+
+        return Storage::disk($disk)->url($path);
     }
 }

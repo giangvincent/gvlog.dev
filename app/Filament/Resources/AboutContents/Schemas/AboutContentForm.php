@@ -36,6 +36,9 @@ class AboutContentForm
                             ->label('Avatar URL')
                             ->columnSpanFull(),
                         RichEditor::make('bio')
+                            ->fileAttachmentsDisk('r2')
+                            ->fileAttachmentsDirectory('about/attachments')
+                            ->fileAttachmentsVisibility('public')
                             ->columnSpanFull(),
                     ])
                     ->columnSpan(1),

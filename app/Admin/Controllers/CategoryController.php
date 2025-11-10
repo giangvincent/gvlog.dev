@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Category;
+use App\Models\Menu;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -75,6 +76,13 @@ class CategoryController extends AdminController
 
         $form->saving(function (Form $form) {
             $form->slug = Str::slug($form->name);
+        });
+
+        $form->saved(function ($form) {
+            $menu = new Menu();
+            $menu->display_name = $form->name;
+            $menu->url = '/category/' . $form->slug;
+            $menu->save();
         });
 
         return $form;

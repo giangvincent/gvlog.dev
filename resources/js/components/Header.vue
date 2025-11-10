@@ -1,13 +1,12 @@
 <template>
   <header class="w-full container mx-auto">
     <div class="flex flex-col items-center py-12">
-      <a
+      <router-link
         class="font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl"
-        href="#"
+        to="/"
       >
-        Minimal Blog
-      </a>
-      <p class="text-lg text-gray-600">Lorem Ipsum Dolor Sit Amet</p>
+          <img src="/assets/logo.png" alt="logo">
+      </router-link>
     </div>
   </header>
 </template>

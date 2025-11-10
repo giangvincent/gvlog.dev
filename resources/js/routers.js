@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Index from './Index.vue';
 import Detail from './Detail.vue';
+import Category from './Category.vue';
 
 const routes = [
     {
@@ -10,7 +11,12 @@ const routes = [
         component: Index
     },
     {
-        path: '/post',
+        path: '/category/:category',
+        name: 'category',
+        component: Category,
+    },
+    {
+        path: '/post/:postId',
         name: 'post_detail',
         component: Detail
     }

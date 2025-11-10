@@ -2,20 +2,43 @@
 
 namespace App\Models;
 
+use App\Events\ContentChanged;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Post extends Model
 {
     use HasFactory;
+    use HasSlug;
 
-    public function categories()
+    protected $fillable = [
+        'title',
+        'slug',
+        'excerpt',
+        'body',
+        'status',
+        'published_at',
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
+
+    public function getSlugOptions(): SlugOptions
     {
-        return $this->belongsToMany(Category::class);
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug');
     }
 
-    public function tags()
+    protected static function booted(): void
     {
-        return $this->belongsToMany(Tag::class);
+        foreach (['created', 'updated', 'deleted'] as $event) {
+            static::{$event}(function (Post $post) use ($event) {
+                ContentChanged::dispatch($post, $event);
+            });
+        }
     }
 }

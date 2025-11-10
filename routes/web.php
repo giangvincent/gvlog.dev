@@ -25,3 +25,5 @@ Route::prefix('/api')->name('api.')->group(function () {
     Route::get('/posts', [PostController::class, 'getListPosts'])->name('posts');
     Route::get('/posts-by-cat/{category}', [PostController::class, 'getListPostsByCat'])->name('postsByCat');
 });
+
+Route::get('post/{id}', [PostController::class, 'postDetail'])->name('post.detail');

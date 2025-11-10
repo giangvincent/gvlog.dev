@@ -28,4 +28,9 @@ class PostController extends Controller
                 ->paginate(10)
         );
     }
+
+    public function postDetail($id)
+    {
+
+    }
 }

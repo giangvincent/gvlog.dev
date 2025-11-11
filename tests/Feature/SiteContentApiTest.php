@@ -3,8 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\AboutContent;
-use App\Models\HomepageContent;
+use App\Models\Post;
 use App\Models\PortfolioProject;
+use App\Models\Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -28,15 +29,25 @@ class SiteContentApiTest extends TestCase
             ]);
     }
 
-    public function test_it_returns_homepage_content_with_featured_projects(): void
+    public function test_homepage_endpoint_returns_services_portfolios_posts_and_about(): void
     {
+        $services = Service::factory()->count(2)->create();
+
         $project = PortfolioProject::factory()->create([
             'published_at' => now()->subDay(),
         ]);
 
-        $homepage = HomepageContent::factory()->create([
+        Post::create([
+            'title' => 'Latest Update',
+            'slug' => 'latest-update',
+            'excerpt' => 'Excerpt',
+            'body' => 'Body',
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+        ]);
+
+        AboutContent::factory()->create([
             'slug' => 'default',
-            'featured_project_ids' => [$project->id],
         ]);
 
         $response = $this->getJson('/api/v1/content/homepage');
@@ -44,34 +55,36 @@ class SiteContentApiTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonFragment([
-                'slug' => $homepage->slug,
-                'hero_title' => $homepage->hero_title,
+                'slug' => $services->first()->slug,
             ])
             ->assertJsonFragment([
                 'slug' => $project->slug,
+            ])
+            ->assertJsonFragment([
+                'slug' => 'default',
             ]);
     }
 
     public function test_overview_endpoint_combines_content(): void
     {
-        $project = PortfolioProject::factory()->create([
+        Service::factory()->create();
+        PortfolioProject::factory()->create(['published_at' => now()->subDay()]);
+        Post::create([
+            'title' => 'Overview Post',
+            'slug' => 'overview-post',
+            'excerpt' => 'Excerpt',
+            'body' => 'Body',
+            'status' => 'published',
             'published_at' => now()->subDay(),
         ]);
-
         AboutContent::factory()->create(['slug' => 'default']);
-        HomepageContent::factory()->create([
-            'slug' => 'default',
-            'featured_project_ids' => [$project->id],
-        ]);
 
-        $response = $this->getJson('/api/v1/content');
+        $homepageResponse = $this->getJson('/api/v1/content/homepage');
+        $overviewResponse = $this->getJson('/api/v1/content');
 
-        $response
+        $homepageResponse->assertOk();
+        $overviewResponse
             ->assertOk()
-            ->assertJsonStructure([
-                'about' => ['slug', 'headline'],
-                'homepage' => ['slug', 'hero_title'],
-                'featured_projects',
-            ]);
+            ->assertExactJson($homepageResponse->json());
     }
 }

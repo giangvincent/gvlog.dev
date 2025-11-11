@@ -1,33 +1,34 @@
 <?php
 
-namespace App\Filament\Resources\HomepageContents\Tables;
+namespace App\Filament\Resources\Services\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class HomepageContentsTable
+class ServicesTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
+                TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('slug')
-                    ->badge()
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('hero_title')
-                    ->label('Hero title')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('intro_title')
-                    ->label('Intro title')
-                    ->toggleable(),
+                    ->toggleable()
+                    ->badge(),
+                IconColumn::make('is_featured')
+                    ->boolean()
+                    ->label('Featured'),
+                TextColumn::make('sort_order')
+                    ->label('Order')
+                    ->sortable(),
                 TextColumn::make('updated_at')
                     ->since()
-                    ->sortable()
                     ->label('Updated'),
             ])
             ->recordActions([

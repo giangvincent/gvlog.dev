@@ -66,13 +66,11 @@ class AboutContentForm
                         TextInput::make('primary_cta_label')
                             ->label('Primary CTA label'),
                         TextInput::make('primary_cta_url')
-                            ->label('Primary CTA URL')
-                            ->url(),
+                            ->label('Primary CTA URL'),
                         TextInput::make('secondary_cta_label')
                             ->label('Secondary CTA label'),
                         TextInput::make('secondary_cta_url')
-                            ->label('Secondary CTA URL')
-                            ->url(),
+                            ->label('Secondary CTA URL'),
                     ]),
             ]);
     }

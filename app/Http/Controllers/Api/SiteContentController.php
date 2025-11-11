@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AboutContentApiResource;
-use App\Http\Resources\HomepageContentApiResource;
+use App\Http\Resources\PostApiResource;
 use App\Http\Resources\PortfolioProjectApiResource;
+use App\Http\Resources\ServiceApiResource;
 use App\Models\AboutContent;
-use App\Models\HomepageContent;
+use App\Models\Post;
+use App\Models\PortfolioProject;
+use App\Models\Service;
 use Illuminate\Http\JsonResponse;
 
 class SiteContentController extends Controller
 {
-    public function about(): AboutContentApiResource
+    public function about()
     {
         $slug = request()->query('slug', 'default');
 
@@ -23,28 +26,37 @@ class SiteContentController extends Controller
         return AboutContentApiResource::make($about);
     }
 
-    public function homepage(): HomepageContentApiResource
+    public function homepage(): JsonResponse
     {
-        $slug = request()->query('slug', 'default');
+        $services = Service::query()
+            ->ordered()
+            ->get();
 
-        $homepage = HomepageContent::query()
-            ->where('slug', $slug)
-            ->firstOrFail();
+        $portfolios = PortfolioProject::query()
+            ->whereNotNull('published_at')
+            ->orderByDesc('is_featured')
+            ->orderBy('sort_order')
+            ->limit(4)
+            ->get();
 
-        return HomepageContentApiResource::make($homepage);
+        $posts = Post::query()
+            ->where('status', 'published')
+            ->orderByDesc('published_at')
+            ->limit(4)
+            ->get();
+
+        $about = AboutContent::query()->where('slug', 'default')->first();
+
+        return response()->json([
+            'about' => $about ? AboutContentApiResource::make($about) : null,
+            'services' => ServiceApiResource::collection($services),
+            'portfolios' => PortfolioProjectApiResource::collection($portfolios),
+            'posts' => PostApiResource::collection($posts),
+        ]);
     }
 
     public function overview(): JsonResponse
     {
-        $about = AboutContent::query()->where('slug', 'default')->first();
-        $homepage = HomepageContent::query()->where('slug', 'default')->first();
-
-        return response()->json([
-            'about' => $about ? AboutContentApiResource::make($about) : null,
-            'homepage' => $homepage ? HomepageContentApiResource::make($homepage) : null,
-            'featured_projects' => $homepage
-                ? PortfolioProjectApiResource::collection($homepage->featuredProjects())
-                : [],
-        ]);
+        return $this->homepage();
     }
 }

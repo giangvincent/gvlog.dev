@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'tinify' => [
+        'key' => env('TINIFY_API_KEY'),
+        'proxy' => env('TINIFY_PROXY_URL'),
+    ],
+
 ];

@@ -13,7 +13,11 @@ class EditAboutContent extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->before(function () {
+                    $aboutContent = $this->getRecord();
+                    $aboutContent->deleteAllAttachments('about/attachments', $aboutContent->bio);
+                }),
         ];
     }
 }

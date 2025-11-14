@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\ContentChanged;
+use DeleteAttachmentsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +13,7 @@ class Service extends Model
 {
     /** @use HasFactory<\Database\Factories\ServiceFactory> */
     use HasFactory;
+    use DeleteAttachmentsTrait;
 
     protected $table = 'services';
 

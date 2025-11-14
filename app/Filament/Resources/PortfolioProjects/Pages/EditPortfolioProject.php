@@ -13,7 +13,13 @@ class EditPortfolioProject extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->before(function () {
+                    $project = $this->getRecord();
+                    $project->deleteCoverImage($project->thumbnail_url);
+                    $project->deleteCoverImage($project->hero_image_url);
+                    $project->deleteAllAttachments('portfolio/attachments', $project->body);
+                }),
         ];
     }
 }

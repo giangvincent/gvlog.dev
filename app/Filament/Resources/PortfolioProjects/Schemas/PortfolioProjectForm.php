@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\PortfolioProjects\Schemas;
 
+use App\Filament\Resources\CompressImageService;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -54,7 +56,10 @@ class PortfolioProjectForm
                             ->image()
                             ->imageEditor()
                             ->maxSize(5120)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->saveUploadedFileUsing(function (TemporaryUploadedFile $file): string {
+                                return CompressImageService::compress('portfolio/thumbnails/', $file);
+                            }),
                         FileUpload::make('hero_image_url')
                             ->label('Hero Image')
                             ->disk('r2')
@@ -63,7 +68,10 @@ class PortfolioProjectForm
                             ->image()
                             ->imageEditor()
                             ->maxSize(8192)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->saveUploadedFileUsing(function (TemporaryUploadedFile $file): string {
+                                return CompressImageService::compress('portfolio/covers/', $file);
+                            }),
                     ]),
                 Section::make('Content')
                     ->columnSpan(2)
@@ -74,7 +82,10 @@ class PortfolioProjectForm
                             ->fileAttachmentsDisk('r2')
                             ->fileAttachmentsDirectory('portfolio/attachments')
                             ->fileAttachmentsVisibility('public')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->saveUploadedFileAttachmentUsing(function (TemporaryUploadedFile $file): string {
+                                return CompressImageService::compress('portfolio/attachments/', $file);
+                            }),
                     ]),
                 Section::make('Meta')
                     ->schema([

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\ContentChanged;
+use DeleteAttachmentsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +15,7 @@ class PortfolioProject extends Model
     /** @use HasFactory<\Database\Factories\PortfolioProjectFactory> */
     use HasFactory;
     use HasSlug;
+    use DeleteAttachmentsTrait;
 
     protected $fillable = [
         'title',

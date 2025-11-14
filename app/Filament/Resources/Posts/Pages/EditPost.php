@@ -13,7 +13,11 @@ class EditPost extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()->before(function () {
+                $post = $this->getRecord();
+                $post->deleteCoverImage($post->cover_image_path);
+                $post->deleteAllAttachments('posts/attachments', $post->body);
+            }),
         ];
     }
 }

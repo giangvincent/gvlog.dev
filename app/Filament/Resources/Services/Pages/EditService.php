@@ -13,7 +13,12 @@ class EditService extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->before(function () {
+                    $service = $this->getRecord();
+                    $service->deleteCoverImage($service->cover_image_path);
+                    $service->deleteAllAttachments('services/attachments', $service->body);
+                }),
         ];
     }
 }

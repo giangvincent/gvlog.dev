@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources\Services\Schemas;
 
+use App\Filament\Resources\CompressImageService;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -56,7 +57,10 @@ class ServiceForm
                             ->visibility('public')
                             ->image()
                             ->imageEditor()
-                            ->maxSize(5120),
+                            ->maxSize(5120)
+                            ->saveUploadedFileUsing(function (TemporaryUploadedFile $file): string {
+                                return CompressImageService::compress('services/covers/', $file);
+                            }),
                         TagsInput::make('tags')
                             ->suggestions([
                                 'Laravel',
@@ -82,7 +86,10 @@ class ServiceForm
                             ->fileAttachmentsDisk('r2')
                             ->fileAttachmentsDirectory('services/attachments')
                             ->fileAttachmentsVisibility('public')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->saveUploadedFileAttachmentUsing(function (TemporaryUploadedFile $file): string {
+                                return CompressImageService::compress('services/attachments/', $file);
+                            }),
                     ])
 
             ]);

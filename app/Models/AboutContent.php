@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\ContentChanged;
+use DeleteAttachmentsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,7 @@ class AboutContent extends Model
 {
     /** @use HasFactory<\Database\Factories\AboutContentFactory> */
     use HasFactory;
+    use DeleteAttachmentsTrait;
 
     protected $fillable = [
         'slug',

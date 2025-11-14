@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Posts\Schemas;
 
+use App\Filament\Resources\CompressImageService;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -54,12 +56,15 @@ class PostForm
                     ->schema([
                         FileUpload::make('cover_image_path')
                             ->label('Cover Image')
-                            ->disk('r2')
-                            ->directory('posts/covers')
+                            ->disk('r2')                     // still used for URLs / preview
+                            ->directory('posts/covers')   // logical target directory
                             ->visibility('public')
                             ->image()
                             ->imageEditor()
-                            ->maxSize(5120),
+                            ->maxSize(5120)                  // 5 MB before compression
+                            ->saveUploadedFileUsing(function (TemporaryUploadedFile $file): string {
+                                return CompressImageService::compress('posts/covers/', $file);
+                            })
                     ]),
                 Section::make('Content')
                     ->columnSpanFull()
@@ -72,7 +77,10 @@ class PostForm
                             ->fileAttachmentsDisk('r2')
                             ->fileAttachmentsDirectory('posts/attachments')
                             ->fileAttachmentsVisibility('public')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->saveUploadedFileAttachmentUsing(function (TemporaryUploadedFile $file): string {
+                                return CompressImageService::compress('posts/attachments/', $file);
+                            }),
                     ]),
             ]);
     }

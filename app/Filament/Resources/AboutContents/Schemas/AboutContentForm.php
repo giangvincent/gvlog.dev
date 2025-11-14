@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\AboutContents\Schemas;
 
+use App\Filament\Resources\CompressImageService;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TagsInput;
@@ -39,7 +41,10 @@ class AboutContentForm
                             ->fileAttachmentsDisk('r2')
                             ->fileAttachmentsDirectory('about/attachments')
                             ->fileAttachmentsVisibility('public')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->saveUploadedFileAttachmentUsing(function (TemporaryUploadedFile $file): string {
+                                return CompressImageService::compress('about/attachments/', $file);
+                            }),
                     ])
                     ->columnSpan(1),
                 Section::make('Skills & Meta')

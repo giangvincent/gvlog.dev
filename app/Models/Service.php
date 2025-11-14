@@ -23,6 +23,7 @@ class Service extends Model
         'body',
         'cover_image_path',
         'is_featured',
+        'status',
         'sort_order',
         'meta',
     ];

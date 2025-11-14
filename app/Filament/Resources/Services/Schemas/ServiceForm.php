@@ -5,6 +5,8 @@ namespace App\Filament\Resources\Services\Schemas;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TagsInput;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -37,9 +39,41 @@ class ServiceForm
                             ->unique(ignoreRecord: true),
                         TextInput::make('subtitle')
                             ->columnSpanFull(),
-                        Textarea::make('excerpt')
-                            ->rows(3)
+                        RichEditor::make('excerpt')
                             ->columnSpanFull(),
+                    ]),
+                Section::make('Media & Meta')->schema([
+                        Select::make('status')
+                            ->options([
+                                'draft' => 'Draft',
+                                'published' => 'Published',
+                            ])
+                            ->default('draft'),
+                        FileUpload::make('cover_image_path')
+                            ->label('Cover Image')
+                            ->disk('r2')
+                            ->directory('services/covers')
+                            ->visibility('public')
+                            ->image()
+                            ->imageEditor()
+                            ->maxSize(5120),
+                        TagsInput::make('tags')
+                            ->suggestions([
+                                'Laravel',
+                                'Filament',
+                                'PHP',
+                                'JavaScript',
+                                'Tailwind',
+                                'Design',
+                            ])
+                            ->placeholder('Add a tag and press enter'),
+                        Toggle::make('is_featured')
+                            ->label('Highlight on homepage')
+                            ->default(false),
+                        TextInput::make('sort_order')
+                            ->numeric()
+                            ->minValue(0)
+                            ->default(0),
                     ]),
                 Section::make('Content')
                     ->columnSpanFull()
@@ -49,25 +83,8 @@ class ServiceForm
                             ->fileAttachmentsDirectory('services/attachments')
                             ->fileAttachmentsVisibility('public')
                             ->columnSpanFull(),
-                    ]),
-                Section::make('Media & Meta')
-                    ->schema([
-                        FileUpload::make('cover_image_path')
-                            ->label('Cover Image')
-                            ->disk('r2')
-                            ->directory('services/covers')
-                            ->visibility('public')
-                            ->image()
-                            ->imageEditor()
-                            ->maxSize(5120),
-                        Toggle::make('is_featured')
-                            ->label('Highlight on homepage')
-                            ->default(false),
-                        TextInput::make('sort_order')
-                            ->numeric()
-                            ->minValue(0)
-                            ->default(0),
-                    ]),
+                    ])
+
             ]);
     }
 }

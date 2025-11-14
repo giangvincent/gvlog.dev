@@ -12,6 +12,7 @@ class ServiceController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $services = Service::query()
+            ->where('status', 'published')
             ->ordered()
             ->get();
 
@@ -21,6 +22,7 @@ class ServiceController extends Controller
     public function show(string $slug): ServiceApiResource
     {
         $service = Service::query()
+            ->where('status', 'published')
             ->where('slug', $slug)
             ->firstOrFail();
 

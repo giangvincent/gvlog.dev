@@ -47,10 +47,14 @@ class AboutContentForm
                         TagsInput::make('skills')
                             ->suggestions([
                                 'Laravel',
-                                'Filament',
-                                'Livewire',
-                                'Vue',
-                                'React',
+                                'PHP',
+                                'Symfony',
+                                'Vue.js',
+                                'Html & CSS',
+                                'JavaScript',
+                                'Tailwind CSS',
+                                'Bootstrap',
+                                'MySQL',
                                 'Design Systems',
                             ])
                             ->placeholder('Add a skill and press enter'),

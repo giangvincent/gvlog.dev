@@ -24,6 +24,9 @@ class ServicesTable
                 IconColumn::make('is_featured')
                     ->boolean()
                     ->label('Featured'),
+                TextColumn::make('status')
+                    ->badge()
+                    ->sortable(),
                 TextColumn::make('sort_order')
                     ->label('Order')
                     ->sortable(),

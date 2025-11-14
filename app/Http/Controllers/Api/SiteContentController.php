@@ -17,7 +17,18 @@ class SiteContentController extends Controller
 {
     public function about()
     {
-        $slug = request()->query('slug', 'default');
+        $slug = request()->query('slug');
+        $slugLike = request()->query('slug-like');
+
+        if (!$slug && $slugLike === 'all') {
+            $abouts = AboutContent::query()->where('slug', '!=', 'default')->orderBy('created_at', 'desc')->get();
+
+            return AboutContentApiResource::collection($abouts);
+        } elseif (!$slug && $slugLike !== 'all') {
+            $abouts = AboutContent::query()->where('slug', 'LIKE', '%'.$slugLike.'%')->orderBy('created_at', 'desc')->get();
+
+            return AboutContentApiResource::collection($abouts);
+        }
 
         $about = AboutContent::query()
             ->where('slug', $slug)
@@ -29,7 +40,9 @@ class SiteContentController extends Controller
     public function homepage(): JsonResponse
     {
         $services = Service::query()
+            ->where('status', 'published')
             ->ordered()
+            ->limit(4)
             ->get();
 
         $portfolios = PortfolioProject::query()

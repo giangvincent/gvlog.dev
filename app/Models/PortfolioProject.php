@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Events\ContentChanged;
-use DeleteAttachmentsTrait;
+use App\Models\DeleteAttachmentsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
